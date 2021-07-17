@@ -1,19 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}BlogBook{% endblock title %}
+{% block title %}Blogs{% endblock title %}
 
 {% block body %}
-
-<div class="container-fluid bg-dark text-light p-5">
-    <div class="container bg-dark p-5">
-        <h1 class="display-4 text-center">Welcome to BlogBook</h1>
-        <hr>
-		<h5 class="text-xxl-end"> Are you ready to take your career to a new level? </h5>
-    </div>
-</div>
-
-
 <div class="row">
+	{% for post in posts reversed %}
 	<div class="col-sm-4">
 		<div class="card text-dark bg-light mb-3 shadow p-3 mb-5 bg-body rounded">
 			<div class="card-body">
@@ -24,5 +15,6 @@
 			</div>
 		</div>
 	</div>
+	{% endfor %}
 </div>
 {% endblock body %}

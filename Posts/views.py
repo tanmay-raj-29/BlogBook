@@ -4,15 +4,22 @@ from .models import Post, Feature
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
-
+from .forms import BlogForm
 # Create your views here.
 
 def index(request):
+    post = Post.objects.last()
+    context = {
+        'post': post
+    }
+    return render(request, 'index.html', context)
+
+def blogs(request):
     posts = Post.objects.all()
     context = {
         'posts': posts
     }
-    return render(request, 'index.html', context)
+    return render(request, 'blogs.html', context)
 
 def post(request, slug):
     post = Post.objects.get(slug=slug)
@@ -34,6 +41,8 @@ def search(request):
         posts = []
     else:
         posts = Post.objects.filter(title__icontains=search)
+        institutePosts = Post.objects.filter(institute__icontains=search)
+        posts = posts.union(institutePosts)
     context = {
         'posts': posts,
         'search': search
@@ -76,3 +85,31 @@ def handlelogin(request):
 def handlelogout(request):
     logout(request)
     return redirect('/')
+
+def add_blog(request):
+    # context = {}
+    
+    context = {'form' : BlogForm}
+    try:
+        if request.method == 'POST':
+            form = BlogForm(request.POST)
+            # print(request.FILES)
+            title = request.POST.get('title')
+            institute = request.POST.get('institute')
+
+            if form.is_valid():
+                body = form.cleaned_data['body']
+
+            blog_obj = Post.objects.create(
+                title = title, 
+                body = body,
+                institute = institute,
+            )
+            return redirect('/blogs')
+            
+            
+    
+    except Exception as e :
+        print(e)
+    
+    return render(request , 'addblog.html' , context)
