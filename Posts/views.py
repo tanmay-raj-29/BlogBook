@@ -9,8 +9,8 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-def post(request, pk):
-    post = Post.objects.get(id=pk)
+def post(request, slug):
+    post = Post.objects.get(slug=slug)
     context = {
         'post': post
     }
