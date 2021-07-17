@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post
+from .models import Post, Feature
 # Create your views here.
 
 def index(request):
@@ -15,3 +15,10 @@ def post(request, pk):
         'post': post
     }
     return render(request, 'post.html', context)
+
+def feature(request):
+    features = Feature.objects.all()
+    context = {
+        'features': features
+    }
+    return render(request, 'features.html', context)

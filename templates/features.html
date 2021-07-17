@@ -34,15 +34,14 @@
 		</div>
 	</nav>
 
+
   <div class="row">
-    {% for post in posts reversed %}
+    {% for feature in features %}
       <div class="col-sm-4">
-        <div class="card text-dark bg-light mb-3 shadow p-3 mb-5 bg-body rounded">
+        <div class="card border-dark mb-3 shadow p-3 mb-5 bg-body rounded">
+        <div class="card-header">{{feature.title}}</div>
           <div class="card-body">
-            <h5 class="card-title">{{post.title}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{post.created_at}}</h6>
-            <p class="card-text">{{post.body|truncatewords:20}}</p>
-            <a href="/post/{{post.id}}" class="card-link">Read More</a>
+            <p class="card-text">{{feature.body}}</p>
           </div>
         </div>
       </div>
