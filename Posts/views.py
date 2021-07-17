@@ -22,3 +22,15 @@ def feature(request):
         'features': features
     }
     return render(request, 'features.html', context)
+
+def search(request):
+    search = request.GET['search']
+    if len(search) > 50:
+        posts = []
+    else:
+        posts = Post.objects.filter(title__icontains=search)
+    context = {
+        'posts': posts,
+        'search': search
+    }
+    return render(request, 'search.html', context)
