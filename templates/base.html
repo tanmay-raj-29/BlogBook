@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html>
 
@@ -50,7 +49,7 @@
 
 		{% if user.is_authenticated %}
 		<button type="button" class="btn btn-primary mx-1">{{request.user}}</button>
-		<a href="/logout" method="POST" ><button type="button" class="btn btn-primary mx-1">Logout</button></a>
+		<a href="/logout" method="POST"><button type="button" class="btn btn-primary mx-1">Logout</button></a>
 		{% else %}
 		<button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal"
 			data-bs-target="#loginmodal">Login</button>
@@ -125,14 +124,13 @@
 		{% endif %}
 	</nav>
 
-	<div>
 		{% for message in messages %}
 		<h5>{{message}}</h5>
 		{% endfor %}
 	</div>
+	
+	{% block body %}{% endblock body %}
 
-
-    {% block body %}{% endblock body %}
 </body>
 
 </html>
