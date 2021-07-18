@@ -1,4 +1,5 @@
 # BlogBook
+Blog made using Django(3.2.5), HTML5, Bootstrap, CSS3 and froala editor.
 
 ## Features
 
