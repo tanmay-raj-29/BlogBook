@@ -2,11 +2,124 @@
 
 {% block title %}BlogBook{% endblock title %}
 {% block body %}
-	<div class="shadow p-3 mb-5 bg-body rounded">
-		<h1>{{post.title}}</h1>
-		<h5>{{post.institute}}</h5>
-		<h5>{{post.created_at}}</h5>
-		<p>{{post.body|safe}}</p>
-	</div>
+<div class="shadow p-3 mb-5 bg-body rounded">
+	<h1>{{post.title}}</h1>
+	<h5>{{post.institute}}</h5>
+	<h5>{{post.created_at}}</h5>
+	<p>{{post.body|safe}}</p>
+</div>
 </body>
+
+<div class="social-share mb-3">
+	<a><span class="d-none d-sm-inline font-weight-bold">Share: </span></a>
+	<!-- share facebook -->
+	<a class="btn btn-light btn-sm blank-windows"
+		href="https://www.facebook.com/sharer.php?u=http://localhost:8000{% url 'post' slug=post.title %}"
+		title="Share to facebook"><i class="fa fa-facebook"></i> <span class="d-none d-sm-inline">Facebook</span></a>
+	<!-- share twitter -->
+	<a class="btn btn-light btn-sm blank-windows"
+		href="https://www.twitter.com/share?url=http://localhost:8000{% url 'post' slug=post.title %}"
+		title="Share to twitter"><i class="fa fa-twitter"></i> <span class="d-none d-sm-inline">Twitter</span></a>
+	<!-- share linkedin -->
+	<a class="btn btn-light btn-sm blank-windows"
+		href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://localhost:8000{% url 'post' slug=post.title %}"
+		title="Share to Linkedin"><i class="fa fa-linkedin"></i> <span class="d-none d-sm-inline">Linkedin</span></a>
+	<!-- share to whatsapp -->
+	<a class="btn btn-light btn-sm  blank-windows"
+		href="whatsapp://send?text=Read&nbsp;the&nbsp;article-{{ post.title }}&nbsp;on&nbsp;http://localhost:8000{% url 'post' slug=post.title %}"
+		data-action="share/whatsapp/share" title="Share to whatsapp"><i class="fa fa-whatsapp"></i> <span
+			class="d-none d-sm-inline">Whatsapp</span></a>
+	<!-- share via email -->
+	<a class="btn btn-light btn-sm"
+		href="mailto:?subject=Your&nbsp;post&nbsp;title&amp;body=Read&nbsp;complete&nbsp;article&nbsp;in&nbsp;here&nbsp;http://localhost:8000/{% url 'post' slug=post.title %}"
+		title="Share by Email"><i class="fa fa-envelope"></i> <span class="d-none d-sm-inline">Email</span></a>
+</div>
+<!-- social share -->
+
+<div>
+	<div class="block-title-6">
+		<h4 class="h5 border-primary border-2">
+			<!-- <span class="bg-primary text-white"> -->
+			Comments
+		</h4>
+	</div>
+	<div class="container">
+		{% if not post.comments.all %}
+		<strong> No comments Yet... </strong><br>
+		{% else %}
+		<ol class="comment-list">
+			{% for comment in post.comments.all %}
+			<li class="comment even thread-even depth-1" id="comment-2">
+				<div id="div-comment-2" class="user-comment u-hover">
+					<footer class="comment-author vcard">
+						<img alt=""
+							src="https://secure.gravatar.com/avatar/738b90e0b42b283d92dfe2e92456327a?s=75&amp;d=mm&amp;r=g"
+							srcset="https://secure.gravatar.com/avatar/738b90e0b42b283d92dfe2e92456327a?s=150&amp;d=mm&amp;r=g 2x"
+							class="avatar avatar-75 photo" height="75" width="75" loading="lazy">
+						<div class="title-comments">
+							<div class="authors">
+								<a target="_blank" href="#" rel="external nofollow ugc" class="url">{{comment.name}}</a>
+							</div> <span class="text-muted dates small">
+								{{comment.date_added}} </span>
+						</div>
+					</footer>
+					<em class="comment">{{comment.body}}</em><br>
+					<div class="comment-content">
+					</div>
+				</div>
+			</li><!-- #comment-## -->
+			{% endfor %}
+
+		</ol>
+		{% endif %}
+	</div>
+
+
+</div>
+
+<div id="comments" class="mb-5">
+
+
+
+	<div id="respond" class="comment-respond mt-5">
+
+		<h3 id="reply-title" class="comment-reply-title">Liked the post? Write something good about it!<small><a
+					rel="nofollow" id="cancel-comment-reply-link" href="index.html#respond" style="display:none;">Cancel
+					reply</a></small></h3>
+		<form action="" method="POST" id="commentform" class="comment-form" novalidate="">
+			{% csrf_token %}
+			<p class="comment-notes"> Required fields are marked <span class="required">*</span></p>
+			<div class="form-group comment-form-comment">
+
+				<textarea class="form-control" id="id_body" placeholder="Comment *" cols="45" rows="8" required=""
+					name="body" required id="id_body"></textarea>
+
+			</div>
+			<br>
+			<div class="form-group comment-form-author">
+
+				<input type="text" name="name" required="" id="id_name" class="form-control" placeholder="Name *"
+					value="" size="30" aria-required="true">
+			</div>
+			{% comment %} <div class="form-group comment-form-email">
+				<input class="form-control" id="email" placeholder="Email *" name="email" type="email" value=""
+					size="30" aria-required="true" required="">
+			</div> {% endcomment %}
+			<!-- <div class="form-group form-check comment-form-cookies-consent"><input class="form-check-input"
+					id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes">
+				<label class="form-check-label" for="wp-comment-cookies-consent">Save my name, email in this browser
+					for the next time I comment</label>
+			</div> -->
+			<br>
+			<p class="form-submit">
+				<input name="submit" type="submit" id="submit" class="btn btn-primary" value="Post Comment">
+				<input type="hidden" name="comment_post_ID" value="66" id="comment_post_ID">
+				<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+			</p>
+		</form>
+	</div>
+
+	<!-- #respond -->
+</div>
+
 {% endblock body %}

@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .models import Post, Feature
-from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate
-from .forms import BlogForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+
+from .forms import BlogForm, commentForm
+from .models import Feature, Post
+
 # Create your views here.
 
 def index(request):
@@ -23,8 +25,21 @@ def blogs(request):
 
 def post(request, slug):
     post = Post.objects.get(slug=slug)
+    model= commentForm
+    
+    if request.method=="POST":
+        
+        form= commentForm(request.POST)
+        if form.is_valid() and request.user.is_authenticated:
+            form = form.save(commit=False)
+            form.post_id = post.id
+            form.save()
+            return redirect('/blogs')
+        else:
+            return redirect('/')
     context = {
-        'post': post
+        'post': post,
+        'model': model
     }
     return render(request, 'post.html', context)
 
